@@ -20,6 +20,9 @@ int main() {
     sleep(1);
     printf("Booting...\n");
     FILE *file = fopen("splash.txt","r");
+    if (file == NULL) {
+    printf("BOOT ERROR : SPLASH NOT FOUND\n");
+    }
     sleep(2.3);
     while (fgets(splash,sizeof(splash),file)) {
     printf("%s",splash);
@@ -40,9 +43,6 @@ int main() {
         if (strcmp(input,"whoami") == 0) {
             printf("%s\n",username);
         } 
-        else if (strcmp(input,"--version") == 0) {
-            printf("Ministros OS v1.2\n");
-        }
         else if (strcmp(input,"touch") == 0) {
             printf("Enter Filename\n");
             fgets(touch_filename,sizeof(touch_filename),stdin);
@@ -53,13 +53,53 @@ int main() {
         }  
         else if (strcmp(input,"ls") == 0) {
             FILE *touch_file = fopen("touch.txt","r");
-        while (fgets(ls,sizeof(ls),touch_file)) {
+        if (touch_file == NULL) {
+            printf("Touch DB Error : 404 FILE NOT FOUND\n");
+        }
+        else{
+            while (fgets(ls,sizeof(ls),touch_file)) {
             ls[strcspn(ls,"\n")] = '\0';
             printf("%s\n",ls);
+            }
+             fclose(touch_file);
         }
-        fclose(touch_file);
+       
       }
-
+     else if (strcmp(input,"sudo pacman -Syu") == 0) {
+        printf("Updating Ministros OS\n");
+        sleep(1);
+         printf("Updating Ministros OS\n");
+         sleep(0.7);
+        printf("Updating Ministros OS\n");
+        sleep(0.7);
+        printf("Ministros OS Is Updated\n");
+     }
+     else if (strcmp(input,"sysinfo") == 0) {
+        printf("CPU : INTEL CORE ULTRA 9 285K\n");
+        printf("GPU : NVIDIA GEFORCE RTX 5090\n");
+        printf("RAM : 64GB DDR5\n");
+        printf("Storage : 2TB NVME M.2 SSD\n");
+     }
+     else if (strcmp(input,"--version") == 0 || strcmp(input,"exit") == 0) {
+        printf("Ministros OS v1.2\n");
+        
+     }
+     else if (strcmp(input,"shutdown now") == 0 || strcmp(input,"exit") == 0) {
+        printf("shutting down..\n");
+        break;
+     }
+     else if (strcmp(input,"help") == 0 || strcmp(input,"--help") == 0) {
+        printf("whoami: Prints username\n");
+        printf("--version: Prints version\n");
+        printf("touch: Creates a file\n");
+        printf("ls: List files\n");
+        printf("sysinfo: Prints system info\n");
+        printf("shutdown now & exit: Shutdown system\n");
+        printf("sudo pacman -Syu: Updates system\n");
+     }
+    else{
+        printf("Command Not Found\n");
+    }
     }
     }
     else{
