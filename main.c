@@ -9,9 +9,8 @@ int main() {
     char input[50];
     char splash[256];
     char touch_filename[50];
-    char touch_file[50];
     char ls[256];
-    printf("Grub\n");
+    printf("GRUB\n");
     printf("1 : Ministros OS\n");
     printf("Choose Operating System To Boot\n");
     scanf("%d",&option_os);
@@ -22,12 +21,15 @@ int main() {
     FILE *file = fopen("splash.txt","r");
     if (file == NULL) {
     printf("BOOT ERROR : SPLASH NOT FOUND\n");
+    
     }
-    sleep(2.3);
+    else{
     while (fgets(splash,sizeof(splash),file)) {
     printf("%s",splash);
     }
     fclose(file);
+    }
+    
     printf("OS\n");
     printf("Username\n");
     fgets(username,sizeof(username),stdin);
@@ -47,12 +49,17 @@ int main() {
             printf("Enter Filename\n");
             fgets(touch_filename,sizeof(touch_filename),stdin);
             touch_filename[strcspn(touch_filename,"\n")] = '\0';
-            FILE *touch = fopen("touch.txt","a");
+            FILE *touch = fopen("touch.db","a");
+            if (touch == NULL) {
+                printf("Failed To Create File\n");
+            }
+            else{
             fprintf(touch,"%s\n",touch_filename);
             fclose(touch);
+            }
         }  
         else if (strcmp(input,"ls") == 0) {
-            FILE *touch_file = fopen("touch.txt","r");
+            FILE *touch_file = fopen("touch.db","r");
         if (touch_file == NULL) {
             printf("Touch DB Error : 404 FILE NOT FOUND\n");
         }
@@ -69,9 +76,9 @@ int main() {
         printf("Updating Ministros OS\n");
         sleep(1);
          printf("Updating Ministros OS\n");
-         sleep(0.7);
+         sleep(1);
         printf("Updating Ministros OS\n");
-        sleep(0.7);
+        sleep(1);
         printf("Ministros OS Is Updated\n");
      }
      else if (strcmp(input,"sysinfo") == 0) {
@@ -80,12 +87,12 @@ int main() {
         printf("RAM : 64GB DDR5\n");
         printf("Storage : 2TB NVME M.2 SSD\n");
      }
-     else if (strcmp(input,"--version") == 0 || strcmp(input,"exit") == 0) {
-        printf("Ministros OS v1.2\n");
+     else if (strcmp(input,"--version") == 0) {
+        printf("Ministros OS v1.3\n");
         
      }
      else if (strcmp(input,"shutdown now") == 0 || strcmp(input,"exit") == 0) {
-        printf("shutting down..\n");
+        printf("Shutting down..\n");
         break;
      }
      else if (strcmp(input,"help") == 0 || strcmp(input,"--help") == 0) {
